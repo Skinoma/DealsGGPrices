@@ -8,7 +8,7 @@ from os import system, name
 file = 'Pricelist.xlsx'
 
 def getPrice( gamename ):
-    "return deals.gg price for a given game"
+    "return deals.gg price for a game game"
     game = gamename.rstrip().replace(" ", "+")
     url = "https://gg.deals/games/?title=" + game
     r = requests.get(url)
