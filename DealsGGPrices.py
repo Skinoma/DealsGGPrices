@@ -33,28 +33,32 @@ def getPrice( gamename ):
         print(gamename + " => " + name + ": " + price)
         
     return price, name
-    
-c = 0
-while c < 1 or c > 2:
-    c = int(input("Enter :\n1 to enter a game name\n2 to update the excel file\n"))
 
-if c == 1:
-    gamename = input("Enter the game name :\n")
-    getPrice(str(gamename))
-else:
-    wb = load_workbook(filename = file)
-    ws = wb.active
-    i = 2
-    print("\n\n------------------\nSEARCHING PRICES\n------------------\n")
-    for row in ws.iter_rows(min_row=1, max_col=5):
-        i += 1
-        if i > len(list(ws.rows)):
-            break
-        else:
-            name = ws['A'+str(i)].value
-            if name:
-                ws['E'+str(i)], ws['F'+str(i)] = getPrice(str(name))
-    wb.save(file)
-    print("\n\nDONE!\nCheck Pricelist.xlsx to get the prices")
+def main():    
+    c = 0
+    while c < 1 or c > 2:
+        c = int(input("Enter :\n1 to enter a game name\n2 to update the excel file\n"))
 
-input("Press any key to quit...")
+    if c == 1:
+        gamename = input("Enter the game name :\n")
+        getPrice(str(gamename))
+    else:
+        wb = load_workbook(filename = file)
+        ws = wb.active
+        i = 2
+        print("\n\n------------------\nSEARCHING PRICES\n------------------\n")
+        for row in ws.iter_rows(min_row=1, max_col=5):
+            i += 1
+            if i > len(list(ws.rows)):
+                break
+            else:
+                name = ws['A'+str(i)].value
+                if name:
+                    ws['E'+str(i)], ws['F'+str(i)] = getPrice(str(name))
+        wb.save(file)
+        print("\n\nDONE!\nCheck Pricelist.xlsx to get the prices")
+
+    input("Press any key to quit...")
+
+if __name__ == "__main__":
+    main()
