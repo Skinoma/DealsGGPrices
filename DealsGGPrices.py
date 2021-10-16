@@ -41,7 +41,7 @@ def getPrice(gamename):
 def main():
   c = 0
   while c < 1 or c > 2:
-      c = int(input("Enter :\n1 to enter a game name\n2 to update the excel file\n"))
+    c = int(input("Enter :\n1 to enter a game name\n2 to update the excel file\n"))
 
   if c == 1:
     gamename = input("Enter the game name :\n")
@@ -58,7 +58,8 @@ def main():
       else:
         name = ws['A'+str(i)].value
         if name:
-          ws['E'+str(i)], ws['F'+str(i)] = getPrice(str(name))
+          ws['E' + str(i)], ws['F' + str(i)] = getPrice(str(name))
+
     wb.save(file)
     print("\n\nDONE!\nCheck Pricelist.xlsx to get the prices")
 
