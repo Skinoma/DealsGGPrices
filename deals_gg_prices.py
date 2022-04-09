@@ -25,11 +25,9 @@ def get_price(gamename):
         soup = bs(req.content, 'html.parser')
         price = soup.select_one('.best-deal')
         if not price:
-            price = soup.select_one('.lowest-recorded.price-hl.price-widget')
-        if not price:
-            price = soup.select_one('.numeric').text.replace("~", "")
-        else:
-            price = price.select_one('.numeric').text.replace("~", "")
+            price = soup.select_one('.lowest-recorded.price-hl.price')
+
+        price = price.select_one('.numeric').text.replace("~", "")
         name = soup.select_one('h1').text[4:]
         print(gamename + " => " + name + ": " + price)
 
@@ -37,7 +35,7 @@ def get_price(gamename):
 
 
 def main():
-    """Main func"""
+    """Main function"""
     choice = 0
     while choice < 1 or choice > 2:
         choice = int(
@@ -53,7 +51,6 @@ def main():
         for i in range(3, wsh.max_row):
             name = wsh['A'+str(i)].value
             if name:
-                print(name)
                 wsh['E' + str(i)], wsh['F' + str(i)] = get_price(str(name))
 
         wbk.save(FILE)
