@@ -18,17 +18,22 @@ def get_price(gamename):
         name = "Not found"
         print(gamename + " => Not found")
     else:
-        fulllink = "https://gg.deals" + \
-            price.find_parent(
-                "div", class_='game-list-item').select_one('.full-link')['href']
-        req = requests.get(fulllink)
-        soup = bs(req.content, 'html.parser')
-        price = soup.select_one('.best-deal')
-        if not price:
-            price = soup.select_one('.lowest-recorded.price-hl.price')
+        game_list_item = price.find_parent(
+            "div", class_='game-list-item')
+        if not game_list_item:
+            price = "Unavailable"
+            name = soup.select_one('h1').text[4:]
+        else:
+            fulllink = "https://gg.deals" + \
+                game_list_item.select_one('.full-link')['href']
+            req = requests.get(fulllink)
+            soup = bs(req.content, 'html.parser')
+            price = soup.select_one('.best-deal')
+            if not price:
+                price = soup.select_one('.lowest-recorded.price-hl.price')
 
-        price = price.select_one('.numeric').text.replace("~", "")
-        name = soup.select_one('h1').text[4:]
+            price = price.select_one('.numeric').text.replace("~", "")
+            name = soup.select_one('h1').text[4:]
         print(gamename + " => " + name + ": " + price)
 
     return price, name
